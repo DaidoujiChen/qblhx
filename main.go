@@ -31,7 +31,7 @@ func main() {
 
 	// 取得每個陣營的所有船艦
 	for i := 1; i <= 7; i++ {
-		c.OnHTML("#con_"+strconv.Itoa(i)+" td[style=\"height:80px\"] a[href]", func(e *colly.HTMLElement) {
+		c.OnHTML("#con_"+strconv.Itoa(i)+" td[style=\"height:60px\"] a[href]", func(e *colly.HTMLElement) {
 			url := e.Attr("href")
 			if isExist(url) {
 				return
@@ -58,7 +58,7 @@ func main() {
 		}
 
 		filename := realName + "-" + strconv.Itoa(shipNames[realName]) + ".png"
-		shipNames[realName] += 1
+		shipNames[realName]++
 		fmt.Println("Processing..." + filename)
 
 		out, err := os.Create("qchar_images/" + filename)
@@ -69,11 +69,11 @@ func main() {
 		}
 
 		resp, err := http.Get(src)
-		defer resp.Body.Close()
 		if err != nil {
 			fmt.Println("Get File Fail: " + err.Error())
 			return
 		}
+		defer resp.Body.Close()
 
 		_, err = io.Copy(out, resp.Body)
 	})
